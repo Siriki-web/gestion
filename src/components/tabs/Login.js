@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stack, TextField, Card, CardContent, Typography, Snackbar, Alert } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import { DisplayButton } from "../librairy/button";
+// import InputAdornment from "@mui/material/InputAdornment";
+// import { DisplayButton } from "../librairy/button";
 import { connect } from "react-redux";
-import { addUserData } from "../../store/actions";
 import { useNavigate } from "react-router-dom";
+import { setToken } from "../../store/actions"
+import "../../style/Login.css"
 
 
-function Login({ saveData }) {
+function Login({ setToken }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [alert, setAlert] = useState(false);
@@ -18,6 +20,23 @@ function Login({ saveData }) {
     const [visibility, setVisibility] = useState(false);
     const [alertType, setAlertType] = useState("error");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Génération dynamique des bulles
+        generateBubbles();
+    }, []);
+
+    const generateBubbles = () => {
+        const container = document.querySelector(".login-container");
+        if (container) {
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement("div");
+                bubble.classList.add("bubble", `bubble-${i % 3 + 1}`);
+                bubble.style.bottom = `${Math.random() * 100}%`;
+                container.appendChild(bubble);
+            }
+        }
+    };
 
     const closeAlert = () => {
         setAlert(false);
@@ -46,8 +65,9 @@ function Login({ saveData }) {
 
             const data = await response.json();
 
-            if (response.ok) {
-                localStorage.setItem('token', data.data[0]);
+            if (data.code === 200 && data.data && data.data.length > 0) {
+                const token = data.data[0]
+                setToken(token)
                 navigate("/liste-entreprise");
             } else {
                 setAlert(true);
@@ -64,7 +84,7 @@ function Login({ saveData }) {
 
     return (
 
-        <div>
+        <div className="login-container">
             <Snackbar open={alert} autoHideDuration={6000} onClose={closeAlert}>
                 <Alert onClose={closeAlert} severity={alertType} color={alertType}>
                     {alertText}
@@ -74,39 +94,54 @@ function Login({ saveData }) {
             <Card
                 sx={{
                     width: "30%",
-                    backgroundColor: "#CECECE",
+                    backgroundColor: "#000",
                     height: "auto",
                     position: "absolute",
                     left: "50%",
                     top: "50%",
-                    transform: "translate(-50%, -50%)"
+                    transform: "translate(-50%, -50%)",
+                    border: "1px solid grey",
+                    borderRadius: "10px"
                 }}
             >
-                <Typography component="div" variant="h5" style={{ textAlign: "center", marginTop: "5%" }}>
+                <Typography component="div" variant="h5" style={{ textAlign: "center", marginTop: "5%", color: "white" }}>
                     Connexion
                 </Typography>
 
                 <CardContent>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <AccountCircle style={{ color: "grey", width: 100, height: 100 }} />
+                        <AccountCircle style={{ color: "#fff", width: 100, height: 100 }} />
                     </div>
                     <Stack spacing={2} marginTop={2}>
                         <TextField
                             id="outlined-basic"
-                            label="login"
+                            label="Login"
                             name="login"
-                            variant="outlined"
+                            
                             onChange={handleUsernameChange}
-                            style={{ width: "90%", margin: "auto" }}
+                            sx={{ width: "90%", margin: "auto", backgroundColor: "#000", border: "1px solid white" }}
+                            InputProps={{
+                                // startAdornment: (
+                                //     <InputAdornment position="start">
+                                //         <AccountCircle sx={{color: "white"}}/>
+                                //     </InputAdornment>
+                                // ),
+                                style: { color: "white" }
+
+                            }}
+                            InputLabelProps={{
+                                style: { color: "white" }
+                            }}
+
                         />
                         <Stack direction="row" spacing={1}>
                             <TextField
                                 id="outlined-basic"
-                                label="password"
+                                label="Password"
                                 name="password"
                                 variant="outlined"
                                 onChange={handlePasswordChange}
-                                style={{ width: "90%", margin: "auto" }}
+                                style={{ width: "90%", margin: "auto", backgroundColor: "#000", border: "1px solid white" }}
                                 type={visibility ? "text" : "password"}
                                 InputProps={{
                                     endAdornment: (
@@ -114,20 +149,53 @@ function Login({ saveData }) {
                                             aria-label="visibily"
                                             onClick={() => setVisibility(!visibility)}
                                             edge="end"
+                                            style={{ color: "white" }}
                                         >
                                             {visibility ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                         </IconButton>
-                                    )
+                                    ),
+                                    style: { color: "white" }
+                                }}
+                                InputLabelProps={{
+                                    style: { color: "white" }
                                 }}
                             />
                         </Stack>
-                        <DisplayButton
+                        <button
+                            onClick={handleSubmit}
+                            style={{
+                                width: "90%",
+                                backgroundColor: "#ff7900",
+                                margin: "auto",
+                                marginTop: "20px",
+                                border: "none",
+                                height: "60px",
+                                color: "white",  
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                transition: "background-color 0.3s, color 0.3s"
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.backgroundColor = "white";
+                                e.target.style.color = "black"; 
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.backgroundColor = "#ff7900";
+                                e.target.style.color = "white"; 
+                            }}
+                        >
+                            SE CONNECTER
+                        </button>
+
+                        {/* <DisplayButton
                             type="contained"
                             disabled={false}
                             text={"Se Connecter"}
                             onPress={handleSubmit}
-                            style={{ width: "90%", backgroundColor: "orange", margin: "auto", marginTop: "20px" }}
-                        />
+                            style={{
+                                width: "90%", backgroundColor: "#ff7900", margin: "auto", marginTop: "20px", 
+                            }}
+                        /> */}
                     </Stack>
                 </CardContent>
             </Card>
@@ -136,16 +204,12 @@ function Login({ saveData }) {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {};
-};
+// const mapStateToProps = (state) => {
+//     return {};
+// };
 
-const mapDispatchStoreToProps = (dispatch) => {
-    return {
-        saveData: (data) => {
-            dispatch(addUserData(data));
-        }
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    setToken: token => dispatch(setToken(token))
+});
 
-export default connect(mapStateToProps, mapDispatchStoreToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

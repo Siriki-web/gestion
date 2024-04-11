@@ -1,0 +1,38 @@
+nav.navbar{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background-color: #000;
+    height: 7rem;
+
+}
+
+.lien{
+    padding: 15px;
+    color: #fff;
+    text-decoration: None;
+    font-size: 20px;
+    font-family: "Times New Roman";
+    
+
+}
+
+img{
+    width: 50px;
+    height: 50px;
+}
+
+.link-left{
+    display: flex;
+    align-items:first baseline;
+    gap: 20px;
+}
+
+.link-left{
+    margin-left: 20px;
+}
+
+.link-right{
+    margin-right: 20px;
+    /* gap: 10px; */
+}

@@ -1,16 +1,8 @@
-import { LOGIN_USER, LOGOUT_USER, TODO_DATA } from "./action-type";
+// actions.js
 
-const addUserData = (data) => ({
-  type: LOGIN_USER,
-  data: data
-});
-
-const removeUserData = () => ({
-  type: LOGOUT_USER
-});
-
-const todoData = (data) => ({
-  type: TODO_DATA,
-  data: data
-});
-export { addUserData, removeUserData, todoData };
+export const setToken = (token) => {
+  return{
+     type: 'SET_TOKEN',
+    payload: token
+  }
+};

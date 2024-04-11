@@ -1,0 +1,44 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.form-input {
+    margin-bottom: 10px;
+    color: red;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-row .form-input {
+    flex-basis: calc(50% - 5px);
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button-save {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-save:hover {
+    background-color: #0056b3;
+}

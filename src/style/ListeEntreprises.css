@@ -1,0 +1,62 @@
+/* ListeEntreprises.css */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #ff7900;
+}
+
+th {
+  background-color: #7d7676;
+  font-weight: bold;
+  text-align: left;
+  font-size: 14px;
+  color: white;
+}
+
+td{
+  font-size: 12px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ff7900;
+}
+
+.btn-bt {
+  position: relative;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 20px; /* Taille de la police */
+  /* Espace de remplissage */
+}
+
+.btn-bt:hover {
+  background-color: transparent;
+}
+
+.btn-bt:hover::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25px; /* Diamètre du cercle */
+  height: 25px; /* Diamètre du cercle */
+  border-radius: 50%; /* Créer un cercle */
+  border: 1px solid #191614; /* Couleur et épaisseur de la bordure */
+}
+
+
